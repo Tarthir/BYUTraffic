@@ -41,12 +41,12 @@ class LogList:
 
     # Loads and returns the byu data
     def load_byu(self, file_path_and_name=None):
-        self.IP_to_Log_byu = self.load(self.my_pickled_data_byu, file_path_and_name)
+        self.IP_to_Log_byu = self.__load_data(self.my_pickled_data_byu, file_path_and_name)
         return self.IP_to_Log_byu
 
     # Loads and returns the root data
     def load_root(self, file_path_and_name=None):
-        self.IP_to_Log_root = self.load(self.my_pickled_data_root, file_path_and_name)
+        self.IP_to_Log_root = self.__load_data(self.my_pickled_data_root, file_path_and_name)
         return self.IP_to_Log_root
 
     # Loads data from either a pickled file object or from a given file path
@@ -79,4 +79,7 @@ class LogList:
         if log_obj.client_ip not in log_dict.keys():
             log_dict[log_obj.client_ip] = []
         log_dict[log_obj.client_ip].append(log_obj)
+
+#####################################
+
 
