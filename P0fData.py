@@ -1,6 +1,7 @@
 
 class P0fData:
     def __init__(self) -> None:
+        #TODO put these into a Dict
         self.mod = None
         self.client = None
         self.srv = None
