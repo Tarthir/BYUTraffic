@@ -3,6 +3,7 @@ import os
 import glob
 import errno
 import gzip
+import re
 
 
 if len(sys.argv) != 2:
@@ -22,6 +23,7 @@ class query_log:
         self.query = None
         self.dns_class = None
         self.resource_record = None
+        self.set = None
         self.flag = None
         self.authoritative_ip = None
 
@@ -51,6 +53,24 @@ print(directory_name)
 
 
 
-with gzip.open("/home/kwankyu/Documents/RA-IMAAL/imaal-data/byu/*.gz", 'rb') as f:
-    file_content = f.read()
-    print(file_content)
+output_file = open("sample_output.txt", "w")
+
+regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\)')
+
+for root, dirs, files in os.walk(sys.argv[1], topdown=True):
+    for name in files:
+        if name.endswith('.gz'):
+            output_file.write(str(name) + ' ')
+            line_count = 0
+            with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
+                for line in f:
+                    line_count += 1
+                    if re.match(regex, line):
+                        sys.stdout.write(line) # write to stdout prevents extra newline
+                    else:
+                        sys.stderr.write(line)
+            output_file.write(str(line_count) + '\n')
+#    for name in files:
+#       print(os.path.join(root, name))
+#    for name in dirs:
+#       print(os.path.join(root, name))
