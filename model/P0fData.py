@@ -1,7 +1,8 @@
 
 class P0fData:
     def __init__(self) -> None:
-        #TODO put these into a Dict
+        #self.vars = {'mod': None, 'client': None, 'srv': None, 'subj': None, 'os': None, 'dist': None, 'params': None, 'raw_sig': None,
+         #            'link': None, 'raw_mtu': None, 'reason': None}
         self.mod = None
         self.client = None
         self.srv = None
