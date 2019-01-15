@@ -1,3 +1,0 @@
-queries.log.2.gz 3289198
-queries.log.3.gz 3295676
-queries.log.4.gz 2803570
