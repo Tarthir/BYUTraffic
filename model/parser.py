@@ -7,7 +7,7 @@ import re
 
 
 if len(sys.argv) != 2:
-    print("Error, ereojsldkafjld;fjalf")
+    print("Error, ereojsldkakwanimwatchingyoufjld;fjalf")
     sys.exit()
 
 

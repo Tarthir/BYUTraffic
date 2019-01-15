@@ -27,7 +27,7 @@ class DistributionDoer:
     # Do we need to look into our objects for the var asked for?
     # if the var asked for is in the asn or p0f data use this function to get it out
     def check_objects(self, item, var):
-        a = getattr(getattr(item,'asn_data'),var)
+        a = getattr(getattr(item, 'asn_data'), var)
         return a if a is not None else getattr(getattr(item, 'p0f_data'), var)
 
     # Returns two lists, x and y values. With x values being he IP address and y being the number
