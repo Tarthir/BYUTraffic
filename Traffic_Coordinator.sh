@@ -45,4 +45,5 @@ python $WD${paths[1]} $WD/data/Byu/asnDataByu.asn $WD/data/p0f_files/
 netcat whois.cymru.com 43 < $WD/data/Byu/asnDataByu.asn | sort -n > $WD/data/finalByu/asnFinalDataByu.asn
 # Get all the Root asn data
 netcat whois.cymru.com 43 < $WD/data/Root/asnDataRoot.asn | sort -n > $WD/data/finalRoot/asnFinalDataRoot.asn
-# TODO run asnFinalData files and p0f files through their respective readers and add data to respective data sets
+# Add all data we got from asn and p0f to our data sets
+python $WD/model/DataAdder.py $WD/data/Root/asnDataRoot.asn $WD/data/Byu/asnDataByu.asn $WD/data/p0f_files/

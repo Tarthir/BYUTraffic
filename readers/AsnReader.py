@@ -1,6 +1,7 @@
 import states.ReaderState as State
 from model import PlotDataHolder as Holder
 import sys
+import model.AsnData as a
 
 
 class AsnReader(State.ReaderState):
@@ -23,34 +24,34 @@ class AsnReader(State.ReaderState):
                 break  # EOF
             line_arr = line.split("|")
             # Strip away all unneeded whitespace
-            holder_to_update = query_log()
+            holder_to_update = a.AsnData()
             self.__parse_asn(line_arr, holder_to_update)
-            log_list.append(holder_to_update)
+            log_list.add_to_data_structure(holder_to_update, log_list.IP_to_asn)
 
     # Helper function which deals with the complicated logic of parsing asn lines
     # In this function what comes in is longname_country_arr of length 1
     # It may contain the country code, if it does we grab it
     # If it does not then we see if it was parsed out in an earlier step from 'name'
     def __check_small_len(self, longname_country_arr, name, holder):
-        holder.vars['longname']      = name[0]
+        holder.longname = name[0]
         # If there is no country code that was parsed, return
         if len(longname_country_arr[0].strip()) > self.__SIZE_OF_COUNTRY_CODES:
             # If 'name' has the country code
             if len(name) == 3:
-                holder.vars['country'] = name[2]
+                holder.country = name[2]
                 return
             # If there is no country code given to us
-            holder.vars['country'] = None
+            holder.country = None
             return
-        holder.vars['country'] = longname_country_arr[0].strip()
+        holder.country = longname_country_arr[0].strip()
 
     # This method parses ASN lines
     # Basically these lines are laid out thusly: ASN | IP | SHORT_NAME - LONGNAME, COUNTRY CODE
     # However there are exceptions which complicate the logic
     # line_arr will usually look like this: [ASN,IP,REST] with REST = 'SHORT_NAME - LONGNAME, COUNTRY CODE'
     def __parse_asn(self, line_arr, holder):
-        holder.vars['asn'] = line_arr[0]
-        holder.vars['client'] = line_arr[1].strip()
+        holder.asn = line_arr[0]
+        holder.client = line_arr[1].strip()
         #holder.holder_ip = line_arr[1]
         # Will split: MIT-GATEWAYS - Massachusetts Institute of Technology, US
         # to: [MIT-GATEWAYS, Massachusetts Institute of Technology, US ]
@@ -58,7 +59,7 @@ class AsnReader(State.ReaderState):
         # to: [GNW-ASN39211, EE]
         name = line_arr[2].split(" - ", 1) if " - " in line_arr[2] else line_arr[2].split(", ", 1)
         # This first part will be the 'short name'
-        holder.vars['short_name'] = name[0]
+        holder.short_name = name[0]
         if name[0] != "NA":
             idx = 1
             # if we are given a very small result we may not have a " - " to split on
@@ -69,6 +70,6 @@ class AsnReader(State.ReaderState):
             if len(longname_country_arr) == 1:
                 self.__check_small_len(longname_country_arr, name, holder)
             else:
-                holder.vars['longname'] = longname_country_arr[0].strip()
-                holder.vars['country'] = longname_country_arr[1].strip()
+                holder.longname = longname_country_arr[0].strip()
+                holder.country = longname_country_arr[1].strip()
 

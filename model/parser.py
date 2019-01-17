@@ -26,8 +26,6 @@ class query_log:
         self.set = None
         self.flag = None
         self.authoritative_ip = None
-        self.asn_data = None
-        self.p0f_data = None
 
     
 directory_name = sys.argv[1]

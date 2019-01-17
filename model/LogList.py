@@ -11,74 +11,65 @@ class LogList:
         # IP -> [logObj1,logObj2,logObj3]
         # The key is an ip address and the value is a list of query log objects
         self.IP_to_Log_byu = {}
-        self.IP_to_Log_root = {}
+        self.IP_to_asn = {}
+        # this dict holds the data from the .pcap files that were to root from byu
+        self.IP_to_p0f = {}
         # our saved data
         self.my_pickled_data_byu = None
         self.my_pickled_data_root = None
+        self.my_pickled_data_asn = None
+        self.my_pickled_data_p0f = None
+        # The files names
+        self.byu_file_name = "byu_log.bin"
+        self.root_file_name = "root_log.bin"
+        self.asn_file_name = "asn_log.bin"
+        self.p0f_file_name = "p0f_log.bin"
 
 #####################################
 
     # Saves the byu and root data given valid file paths
-    def save_data(self, data_file_byu, data_file_root):
+    def save_data(self, data_file_path):
         try:
-            self.__save(data_file_byu, self.IP_to_Log_byu)
-            self.__save(data_file_root, self.IP_to_Log_root)
+            self.__save(data_file_path, self.IP_to_Log_byu, self.byu_file_name)
+            self.__save(data_file_path, self.IP_to_asn, self.asn_file_name)
+            self.__save(data_file_path, self.IP_to_p0f, self.p0f_file_name)
         except IOError as err:
             sys.stderr.write('ERROR: %sn' % str(err))
 
     # Here we save all our data to a file
     # Use this when parsing is complete
-    def __save(self, file_path_and_name, log_dict):
-        binary_file = open(file_path_and_name + '.bin', mode='wb')
+    def __save(self, file_path, log_dict, filename):
+        binary_file = open(file_path + filename, mode='wb')
         self.my_pickled_data = pickle.dump(log_dict, binary_file)
         binary_file.close()
 
 ####################################
 
     # Loads and returns both sets of data
-    def load_all(self, file_path_and_name=None):
-        return self.load_byu(file_path_and_name), self.load_root(file_path_and_name)
+    def load_all(self, file_path):
+        self.IP_to_Log_byu = self.__load_data(file_path + self.byu_file_name)
+        self.IP_to_asn = self.__load_data(file_path + self.asn_file_name)
+        self.IP_to_p0f = self.__load_data(file_path + self.p0f_file_name)
 
-    # Loads and returns the byu data
-    def load_byu(self, file_path_and_name=None):
-        self.IP_to_Log_byu = self.__load_data(self.my_pickled_data_byu, file_path_and_name)
-        return self.IP_to_Log_byu
-
-    # Loads and returns the root data
-    def load_root(self, file_path_and_name=None):
-        self.IP_to_Log_root = self.__load_data(self.my_pickled_data_root, file_path_and_name)
-        return self.IP_to_Log_root
-
-    # Loads data from either a pickled file object or from a given file path
-    def __load_data(self, my_pickled_data, file_path_and_name=None):
-        # See if our pickled obj is in memory or not
-        if my_pickled_data is not None:
-            return pickle.loads(my_pickled_data)
-        # if they gave us a file path
-        elif file_path_and_name is not None:
-            try:
-                return pickle.load(open(file_path_and_name, 'rb'))
-            except IOError as err:
-                sys.stderr.write('ERROR: %sn' % str(err))
-        # if they gave us no way to retrieve the information
-        else:
-            sys.stderr.write('ERROR: Please specify a file and its path')
+    # Loads data from a given file path
+    @staticmethod
+    def __load_data(file_path_and_name):
+        try:
+            return pickle.load(open(file_path_and_name, 'rb'))
+        except IOError as err:
+            sys.stderr.write('ERROR: %sn' % str(err))
 
 #####################################
 
-    # This function adds a log object to the byu log dict
-    def add_to_byu(self, log_obj):
-        self.__add_to_log(log_obj, self.IP_to_Log_byu)
+    # Add data to one of our dictionaries held by this class
+    # data: the data that is to be added, AsnData, P0fData, or query_log objects
+    # data_structure: one of the three dicts found at the top of this class
+    @staticmethod
+    def add_to_data_structure(data, data_structure):
+        if data.client not in data_structure.keys():
+            data_structure[data.client] = []
+        data_structure[data.client].append(data)
 
-    # This function adds a log object to the root log dict
-    def add_to_root(self, log_obj):
-        self.__add_to_log(log_obj, self.IP_to_Log_root)
-
-    # Handles the actually adding of data to the right dictionary
-    def __add_to_log(self, log_obj, log_dict):
-        if log_obj.client_ip not in log_dict.keys():
-            log_dict[log_obj.client_ip] = []
-        log_dict[log_obj.client_ip].append(log_obj)
 
 #####################################
 
