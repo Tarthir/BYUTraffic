@@ -67,7 +67,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
                         , regex_groups.group(12), regex_groups.group(13), regex_groups.group(14), regex_groups.group(15))
                         log_object.display()
                         mighty_log.add_to_byu(log_object)
-                    else:
+                    # else:
                         # sys.stderr.write(line)
             output_file.write(str(line_count) + '\n')
             total_line_count += line_count
