@@ -33,6 +33,7 @@ class query_log:
         self.asn_data = None
         self.p0f_data = None
     
+    # Print all the data members
     def display(self):
         print(str(self.date) + " " + str(self.time) + " " + str(self.time_zone) + " " + str(self.authoritative_name)\
         + " " + str(self.process_name) + " " + str(self.process_id) + " " + str(self.client_ip) + " " + str(self.client_port)\
@@ -67,7 +68,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
                         log_object.display()
                         mighty_log.add_to_byu(log_object)
                     else:
-                        sys.stderr.write(line)
+                        # sys.stderr.write(line)
             output_file.write(str(line_count) + '\n')
             total_line_count += line_count
 
