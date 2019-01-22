@@ -22,7 +22,7 @@ class query_log:
         self.authoritative_name = authoritative_name
         self.process_name = process_name
         self.process_id = process_id
-        self.client_ip = client_ip
+        self.client = client_ip
         self.client_port = client_port
         self.query = query
         self.dns_class = dns_class
@@ -66,12 +66,13 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
                         , regex_groups.group(6), regex_groups.group(7), regex_groups.group(8), regex_groups.group(10), regex_groups.group(11)\
                         , regex_groups.group(12), regex_groups.group(13), regex_groups.group(14), regex_groups.group(15))
                         log_object.display()
-                        mighty_log.add_to_byu(log_object)
+                        mighty_log.add_to_data_structure(log_object, mighty_log.IP_to_Log_byu)
                     # else:
                         # sys.stderr.write(line)
             output_file.write(str(line_count) + '\n')
             total_line_count += line_count
 
+mighty_log.save_data(sys.argv[2])
 output_file.write("Total Lines Read:" + str(total_line_count))
 #    for name in files:
 #       print(os.path.join(root, name))
