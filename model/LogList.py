@@ -57,7 +57,9 @@ class LogList:
         try:
             return pickle.load(open(file_path_and_name, 'rb'))
         except IOError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('ERROR: %s' % str(err))
+        except EOFError as err:
+            sys.stderr.write('ERROR: %s' % str(err))
 
 #####################################
 

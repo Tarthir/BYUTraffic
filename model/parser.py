@@ -4,7 +4,8 @@ import glob
 import errno
 import gzip
 import re
-import LogList as L
+import model.LogList as L
+import model.QueryLog as q
 
 # Takes in the file path directory to read all the zip files
 # For Example from base /home/imaal/dns-queries/byu
@@ -15,33 +16,6 @@ if len(sys.argv) != 4:
     print("Error, Give the path of the directory")
     sys.exit()
 
-
-class query_log:
-    def __init__(self, date, time, time_zone, authoritative_name, process_name, process_id,\
-    client_ip, client_port, query, dns_class, resource_record, set_bool, flag, authoritative_ip):
-        self.date = date
-        self.time = time
-        self.time_zone = time_zone
-        self.authoritative_name = authoritative_name
-        self.process_name = process_name
-        self.process_id = process_id
-        self.client = client_ip
-        self.client_port = client_port
-        self.query = query
-        self.dns_class = dns_class
-        self.resource_record = resource_record
-        self.set = set_bool
-        self.flag = flag
-        self.authoritative_ip = authoritative_ip
-        self.asn_data = None
-        self.p0f_data = None
-    
-    # Print all the data members
-    def display(self):
-        print(str(self.date) + " " + str(self.time) + " " + str(self.time_zone) + " " + str(self.authoritative_name)\
-        + " " + str(self.process_name) + " " + str(self.process_id) + " " + str(self.client) + " " + str(self.client_port)\
-        + " " + str(self.query) + " " + str(self.dns_class) + " " + str(self.resource_record) + " " + str(self.set)\
-        + " " + str(self.flag) + " " + str(self.authoritative_ip) + " " + str(self.asn_data) + " " + str(self.p0f_data))
 
     
 directory_name = sys.argv[1] # Path of the directory holding the zip files
@@ -67,7 +41,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
                     if re.match(regex, line):
                         # sys.stdout.write(line) # write to stdout prevents extra newline
                         regex_groups = re.match(regex, line) # Hold all the matched groups
-                        log_object = query_log(regex_groups.group(1), regex_groups.group(2), regex_groups.group(3), regex_groups.group(4), regex_groups.group(5)\
+                        log_object = q.query_log(regex_groups.group(1), regex_groups.group(2), regex_groups.group(3), regex_groups.group(4), regex_groups.group(5)\
                         , regex_groups.group(6), regex_groups.group(7), regex_groups.group(8), regex_groups.group(10), regex_groups.group(11)\
                         , regex_groups.group(12), regex_groups.group(13), regex_groups.group(14), regex_groups.group(15))
                         #log_object.display() # Testing
