@@ -39,10 +39,10 @@ class LogList:
     # Here we save all our data to a file
     # Use this when parsing is complete
     def __save(self, file_path, log_dict, filename):
-        binary_file = open(file_path + filename, mode='wb')
-        self.my_pickled_data = pickle.dump(log_dict, binary_file)
-        binary_file.close()
-
+        if log_dict:
+            binary_file = open(file_path + filename, mode='wb')
+            self.my_pickled_data = pickle.dump(log_dict, binary_file)
+            binary_file.close()
 ####################################
 
     # Loads and returns both sets of data

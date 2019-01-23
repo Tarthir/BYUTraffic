@@ -80,7 +80,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
             total_line_count += line_count # for sample output file
 
 byu_to_asn_file.write("end\n") # Write out to ASN
-# mighty_log.save_data(sys.argv[2])
+mighty_log.save_data(sys.argv[2])
 output_file.write("Total Lines Read:" + str(total_line_count) + "\n") # for sample output file
 #    for name in files:
 #       print(os.path.join(root, name))
