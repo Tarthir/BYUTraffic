@@ -1,3 +1,6 @@
+from functools import reduce
+
+
 class DistributionDoer:
 
     # This function goes through our data structure and gets the values associated with var
@@ -35,4 +38,11 @@ class DistributionDoer:
     # of times that IP value showed up in one of our data sets
     @staticmethod
     def __get_client(ip_to_data):
-        return list(ip_to_data.keys()), [len(ip_to_data[x]) for x in ip_to_data.values()]
+        sum = len(list(ip_to_data.values()))
+        for k in ip_to_data:
+            ip_to_data[k] = len(ip_to_data[k])/sum
+        # sort into tuples
+        s = [(k, ip_to_data[k]) for k in sorted(ip_to_data, key=ip_to_data.get, reverse=True)]
+        a, b = zip(*s)
+        # convert into lists
+        return list(a), list(b)
