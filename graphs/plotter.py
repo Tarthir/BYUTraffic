@@ -32,7 +32,6 @@ class Plotter(object):
         fig, ax = plt.subplots()
         # Grab the indexes of each x val
         x_pos = [i for i, _ in enumerate(x_values)]
-
         plt.bar(x_pos, y_values, color='green')
         ax.set_xlabel(x_name)
         ax.set_ylabel(y_name)

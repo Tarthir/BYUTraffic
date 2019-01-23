@@ -34,7 +34,7 @@ class LogList:
             self.__save(data_file_path, self.IP_to_asn, self.asn_file_name)
             self.__save(data_file_path, self.IP_to_p0f, self.p0f_file_name)
         except IOError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('ERROR: %s' % str(err))
 
     # Here we save all our data to a file
     # Use this when parsing is complete

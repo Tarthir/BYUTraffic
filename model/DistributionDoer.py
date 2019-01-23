@@ -1,5 +1,4 @@
-from functools import reduce
-
+import sys
 
 class DistributionDoer:
 
@@ -19,7 +18,7 @@ class DistributionDoer:
                 # if we did not find anything, check the asn or p0f data objects
                 if attr_val is None:
                     # TODO probably need a try-catch
-                    self.__check_objects(item, var)
+                    attr_val = self.__check_objects(item, var)
                 # create the entry or add to it depending on whether we have seen it before or not
                 if attr_val in result.keys():
                     result[attr_val] += 1
@@ -31,18 +30,22 @@ class DistributionDoer:
     # if the var asked for is in the asn or p0f data use this function to get it out
     @staticmethod
     def __check_objects(item, var):
-        a = getattr(getattr(item, 'asn_data'), var)
-        return a if a is not None else getattr(getattr(item, 'p0f_data'), var)
-
+        try:
+            a = getattr(getattr(item, 'asn_data'), var)
+            return a if a is not None else getattr(getattr(item, 'p0f_data'), var)
+        except AttributeError as err:
+            #sys.stderr.write('ERROR: %s\n' % str(err))
+            return None
     # Returns two lists, x and y values. With x values being he IP address and y being the number
     # of times that IP value showed up in one of our data sets
     @staticmethod
     def __get_client(ip_to_data):
-        sum = len(list(ip_to_data.values()))
-        for k in ip_to_data:
-            ip_to_data[k] = len(ip_to_data[k])/sum
+        data = ip_to_data.copy()
+        sum = len(list(data.values()))
+        for k in data:
+            data[k] = len(data[k])/sum
         # sort into tuples
-        s = [(k, ip_to_data[k]) for k in sorted(ip_to_data, key=ip_to_data.get, reverse=True)]
+        s = [(k, data[k]) for k in sorted(data, key=data.get, reverse=True)]
         a, b = zip(*s)
         # convert into lists
         return list(a), list(b)
