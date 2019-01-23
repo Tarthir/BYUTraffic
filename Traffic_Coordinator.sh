@@ -36,7 +36,7 @@ if [-d "$WD/data/"]; then
     rm -rf $WD/data/*data
 fi
 # Run our parsing, give it the location of the queries.log files
-python $WD/model/parser.py ${paths[3]} $WD/log_list_saved_data/
+python $WD/model/parser.py ${paths[3]} $WD/log_list_saved_data/ $WD/data/Byu/asnDataByu.asn
 # Run p0fer.py, give path to .pcap files, where the unzipped files go, and final log files go
 python $WD${paths[0]} ${paths[2]} $WD/data/unzipped_pcap/ $WD/data/p0f_files/
 # Run getASN.py, give path to where we will put asnDataByu.asn and give where final p0f log files are
@@ -47,3 +47,6 @@ netcat whois.cymru.com 43 < $WD/data/Byu/asnDataByu.asn | sort -n > $WD/data/fin
 netcat whois.cymru.com 43 < $WD/data/Root/asnDataRoot.asn | sort -n > $WD/data/finalRoot/asnFinalDataRoot.asn
 # Add all data we got from asn and p0f to our data sets
 python $WD/model/DataAdder.py $WD/data/Root/asnDataRoot.asn $WD/data/Byu/asnDataByu.asn $WD/data/p0f_files/
+
+# Venn diagram the ditl-2018 and byu authoritative traffic data
+python $WD/ditl_byu_comparison.py path_to_ditl_file path_to_byu_authoritative_ips(data/Byu/asnDataByu.asn) Output_path
