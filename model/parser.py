@@ -27,7 +27,7 @@ byu_to_asn_file.write("begin\n") # Because Tyler's asn file reader is so picky i
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
 
-output_file = open("sample_output.txt", "w") # Creates a file with extra info about the files
+output_file = open(str(sys.argv[3]) + "sample_output.txt", "w") # Creates a file with extra info about the files
 total_line_count = 0 # For sample output file
 
 for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the top and go down the directory
