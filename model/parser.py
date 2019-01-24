@@ -35,7 +35,7 @@ regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\
 total_line_count = 0 # For sample output file
 for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the top and go down the directory
     for name in files:
-        if name.endswith('.pcap.gz'):
+        if name.endswith('.log.gz'):
             output_file.write(str(name) + ' ') # For sample output file
             line_count = 0 # For sample output file
             with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
