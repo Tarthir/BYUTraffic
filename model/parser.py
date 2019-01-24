@@ -34,6 +34,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
     for name in files:
         if name.endswith('.gz'):
             output_file.write(str(name) + ' ') # For sample output file
+            print(str(name))
             line_count = 0 # For sample output file
             with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
                 for line in f:
