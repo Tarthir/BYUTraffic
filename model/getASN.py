@@ -9,8 +9,8 @@ if len(sys.argv) != 3:
     print("Usage is getASN.py <asnData.asn path> <location of p0f log files>")
     sys.exit(1)
 
-asnData = sys.argv[2]  # '/home/tyler/data_gathering/asnGeoData/asnData.asn'
-logFilesLoc = sys.argv[3]
+asnData = sys.argv[1]  # '/home/tyler/data_gathering/asnGeoData/asnData.asn'
+logFilesLoc = sys.argv[2]
 
 # asnFinalData = '/home/tyler/asnData/finalASNData.data'
 # def write_addr(type_of_addr):

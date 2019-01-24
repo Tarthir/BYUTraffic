@@ -7,7 +7,7 @@ import sys
 # packets going to the root zone from byu
 class LogList:
 
-    def __init__(self) -> None:
+    def __init__(self):
         # IP -> [logObj1,logObj2,logObj3]
         # The key is an ip address and the value is a list of query log objects
         self.IP_to_Log_byu = {}

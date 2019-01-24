@@ -5,8 +5,8 @@ import errno
 import gzip
 import re
 # import model.LogList as L
-import model.LogList as L
-import model.QueryLog as q
+import LogList
+import QueryLog
 # import QueryLog
 
 
@@ -20,10 +20,9 @@ if len(sys.argv) != 4:
     sys.exit()
 
 
-    
 directory_name = sys.argv[1] # Path of the directory holding the zip files
 
-mighty_log = L.LogList() # Our LogList object for which we store our data into
+mighty_log = LogList.LogList() # Our LogList object for which we store our data into
 # mighty_log = LogList() # Our LogList object for which we store our data into
 
 byu_to_asn_file = open(sys.argv[3], "w") # The file for which we store the client ip for asn. (begin....ip.....end)
@@ -36,7 +35,7 @@ regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\
 total_line_count = 0 # For sample output file
 for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the top and go down the directory
     for name in files:
-        if name.endswith('.gz'):
+        if name.endswith('.pcap.gz'):
             output_file.write(str(name) + ' ') # For sample output file
             line_count = 0 # For sample output file
             with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
@@ -46,7 +45,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
                         # sys.stdout.write(line) # write to stdout prevents extra newline
                         regex_groups = re.match(regex, line) # Hold all the matched groups
                         # log_object = q.query_log
-                        log_object = q.query_log(regex_groups.group(1), regex_groups.group(2), regex_groups.group(3), regex_groups.group(4), regex_groups.group(5)\
+                        log_object = QueryLog.query_log(regex_groups.group(1), regex_groups.group(2), regex_groups.group(3), regex_groups.group(4), regex_groups.group(5)\
                         , regex_groups.group(6), regex_groups.group(7), regex_groups.group(8), regex_groups.group(10), regex_groups.group(11)\
                         , regex_groups.group(12), regex_groups.group(13), regex_groups.group(14), regex_groups.group(15))
                         #log_object.display() # Testing
