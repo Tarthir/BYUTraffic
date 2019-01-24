@@ -13,7 +13,7 @@ import QueryLog
 # Argument 1: Directory path to the zip giles
 # Argument 2: The file directory to which we want to save the binary data which happens in loglist save function
 # Argument 3: File directory to save client ips, which will be fed to asn reader
-if len(sys.argv) != 3:
+if len(sys.argv) != 4:
     print("Error, Give the path of the directory to zip file\n Give the path to where we will save the binary data\n Give the file path to save the client ips ")
     sys.exit()
 
