@@ -1,2 +1,3 @@
-queries.log.gz 540967
-Total Lines Read:540967
+queries.log.43.gz 3517502
+queries.log.44.gz 3523191
+Total Lines Read:7040693
