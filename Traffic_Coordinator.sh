@@ -20,7 +20,7 @@ python $WD/model/parser.py $loc2 $WD/data/ $WD/data/asnDataByu.asn
 # Run p0fer.py, give path to .pcap files, where the unzipped files go, and final log files go
 python $WD/model/p0fer.py $loc $WD/data/unzipped_pcap/ $WD/data/p0f_files/
 # Run getASN.py, give path to where we will put asnDataByu.asn and give where final p0f log files are
-python $WD/model/getASN.py $WD/data/asnDataByu.asn $WD/data/p0f_files/
+python $WD/model/getASN.py $WD/data/asnDataRoot.asn $WD/data/p0f_files/
 # Get all the Byu asn data
 netcat whois.cymru.com 43 < $WD/data/asnDataByu.asn | sort -n > $WD/data/asnFinalDataByu.asn
 # Get all the Root asn data
