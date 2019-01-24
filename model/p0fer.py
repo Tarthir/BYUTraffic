@@ -29,7 +29,7 @@ def p0f_file(unzipped_f, cnt, f_in):
         logfile = destLogLoc + 'p0finfo' + str(cnt) + '.p0f'
     # now lets run that data through p0f
     # run p0f on the unzipped file
-    subprocess.check_output(['/usr/sbin/p0f','-r',unzipped_f,'-o',logfile,'dst port 53 and (dst host 128.187.82.251 or dst host 128.187.82.250 or dst host 128.187.82.230 or dst host 128.187.82.231)'])
+    subprocess.check_output(['/usr/sbin/p0f','-r',unzipped_f,'-o',logfile])
 
 cnt = 0
 for file in os.listdir(pcapFilesLoc): 
