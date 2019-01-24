@@ -30,8 +30,10 @@ print_it $("Please give the full path to where the queries.log files are")
 if [-d "$WD/data/"]; then
     rm -rf $WD/data/*
 fi
+mkdir $WD/data/unzipped_pcap/
+mkdir $WD/data/p0f_files/
 # Run our parsing, give it the location of the queries.log files
-python $WD/model/parser.py ${paths[1]} $WD/log_list_saved_data/ $WD/data/Byu/asnDataByu.asn
+python $WD/model/parser.py ${paths[1]} $WD/data/ $WD/data/asnDataByu.asn
 # Run p0fer.py, give path to .pcap files, where the unzipped files go, and final log files go
 python $WD/model/p0fer.py ${paths[0]} $WD/data/unzipped_pcap/ $WD/data/p0f_files/
 # Run getASN.py, give path to where we will put asnDataByu.asn and give where final p0f log files are
