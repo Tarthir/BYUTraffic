@@ -15,7 +15,11 @@ class P0fReader(State.ReaderState):
 
     def read(self, filename, log_list):
         # Read two lines at a time from p0f as each IP has two lines of data
-        fd = open(filename, "r")
+        try:
+            fd = open(filename, "r")
+        except IOError as err:
+            sys.stderr.write('Error: %s\n' % str(err))
+            return
         while True:
             line1 = fd.readline()
             line2 = fd.readline()
