@@ -1,12 +1,12 @@
 import sys
-import readers.P0fReader
-import readers.AsnReader
-import model.LogList
+import P0fReader
+import AsnReader
+import LogList
 
-log_list = model.LogList.LogList()
+log_list = LogList.LogList()
 log_list.load_all(sys.argv[4])
-p0fReader = readers.P0fReader.P0fReader()
-asnReader = readers.AsnReader.AsnReader()
+p0fReader = P0fReader.P0fReader()
+asnReader = AsnReader.AsnReader()
 
 # read the root asn data into the root data set
 asnReader.read(sys.argv[1], log_list)

@@ -22,7 +22,7 @@ directory_name = sys.argv[1] # Path of the directory holding the zip files
 
 mighty_log = LogList.LogList() # Our LogList object for which we store our data into
 
-byu_to_asn_file = open(str(sys.argv[3]) + "ip_for_asn_reading", "w") # The file for which we store the client ip for asn. (begin....ip.....end)
+byu_to_asn_file = open(str(sys.argv[3]), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
 byu_to_asn_file.write("begin\n") # Because Tyler's asn file reader is so picky it needs this 'begin'
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
