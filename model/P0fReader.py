@@ -1,8 +1,8 @@
-import readers.ReaderState as State
+import model.ReaderState as State
 import re
-#from parse import query_log as log
 import sys
-import model.P0fData as p
+import model.P0fData as P0f
+
 
 class P0fReader(State.ReaderState):
 
@@ -29,7 +29,7 @@ class P0fReader(State.ReaderState):
             if self.__check_host_change(line2):
                 line3 = fd.readline()
             # Make a data holder and parse the p0f data
-            holder = p.P0fData()
+            holder = P0f.P0fData()
             self.__parse_p0f(line1, line2, line3, holder)
             log_list.add_to_data_structure(holder, log_list.IP_to_p0f)
 

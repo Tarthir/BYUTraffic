@@ -1,6 +1,6 @@
-import readers.ReaderState as State
+import model.ReaderState as State
 import sys
-import model.AsnData as a
+import model.AsnData as Asn
 
 
 class AsnReader(State.ReaderState):
@@ -27,7 +27,7 @@ class AsnReader(State.ReaderState):
                 break  # EOF
             line_arr = line.split("|")
             # Strip away all unneeded whitespace
-            holder_to_update = a.AsnData()
+            holder_to_update = Asn.AsnData()
             try:
                 self.__parse_asn(line_arr, holder_to_update)
             except IndexError as err:
