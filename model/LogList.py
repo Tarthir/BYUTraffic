@@ -34,7 +34,7 @@ class LogList:
             self.__save(data_file_path, self.IP_to_asn, self.asn_file_name)
             self.__save(data_file_path, self.IP_to_p0f, self.p0f_file_name)
         except IOError as err:
-            sys.stderr.write('LogList ERROR: %s' % str(err))
+            sys.stderr.write('LogList ERROR: %s\n' % str(err))
 
     # Here we save all our data to a file
     # Use this when parsing is complete
@@ -58,10 +58,10 @@ class LogList:
         try:
             return pickle.load(open(file_path_and_name, 'rb'))
         except IOError as err:
-            sys.stderr.write('LogList ERROR: %s' % str(err))
+            sys.stderr.write('LogList ERROR: %s\n' % str(err))
             return default
         except EOFError as err:
-            sys.stderr.write('LogList ERROR: %s' % str(err))
+            sys.stderr.write('LogList ERROR: %s\n' % str(err))
             return default
 
 #####################################
@@ -72,10 +72,10 @@ class LogList:
     @staticmethod
     def add_to_data_structure(data, data_structure):
         if data is None or data.client is None:
-            sys.stderr.write('LogList ERROR: None given as input to add_to_data_structure')
+            sys.stderr.write('LogList ERROR: None given as input to add_to_data_structure\n')
             return
         elif data_structure is None:
-            sys.stderr.write('LogList ERROR: data_structure equals None')
+            sys.stderr.write('LogList ERROR: data_structure equals None\n')
             return
         if data.client not in data_structure.keys():
             data_structure[data.client] = []
