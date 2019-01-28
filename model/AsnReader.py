@@ -1,6 +1,6 @@
-import model.ReaderState as State
+import ReaderState as State
 import sys
-import model.AsnData as Asn
+import AsnData as Asn
 
 
 class AsnReader(State.ReaderState):

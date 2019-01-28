@@ -1,7 +1,7 @@
-import model.ReaderState as State
+import ReaderState as State
 import re
 import sys
-import model.P0fData as P0f
+import P0fData as P0f
 
 
 class P0fReader(State.ReaderState):
