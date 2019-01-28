@@ -54,12 +54,15 @@ class LogList:
     # Loads data from a given file path
     @staticmethod
     def __load_data(file_path_and_name):
+        default = {}
         try:
             return pickle.load(open(file_path_and_name, 'rb'))
         except IOError as err:
             sys.stderr.write('LogList ERROR: %s' % str(err))
+            return default
         except EOFError as err:
             sys.stderr.write('LogList ERROR: %s' % str(err))
+            return default
 
 #####################################
 
