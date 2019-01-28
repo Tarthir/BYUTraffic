@@ -68,6 +68,9 @@ class LogList:
     # data_structure: one of the three dicts found at the top of this class
     @staticmethod
     def add_to_data_structure(data, data_structure):
+        if data is None or data.client is None:
+            sys.stderr.write('LogList ERROR: None given as input to add_to_data_structure')
+            return
         if data.client not in data_structure.keys():
             data_structure[data.client] = []
         data_structure[data.client].append(data)
