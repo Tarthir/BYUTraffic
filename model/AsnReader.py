@@ -15,14 +15,14 @@ class AsnReader(State.ReaderState):
         try:
             fd = open(filename, "r")
         except IOError as err:
-            sys.stderr.write('Error: %s\n' % str(err))
+            sys.stderr.write('AsnReader Error: %s\n' % str(err))
             return
         while True:
             line = None
             try:
                 line = fd.readline()
             except UnicodeDecodeError as err:
-                sys.stderr.write('KeyError in DataHolderList: %s\n' % str(err))
+                sys.stderr.write('AsnReader: KeyError in DataHolderList: %s\n' % str(err))
             if not line:
                 break  # EOF
             line_arr = line.split("|")
@@ -31,7 +31,7 @@ class AsnReader(State.ReaderState):
             try:
                 self.__parse_asn(line_arr, holder_to_update)
             except IndexError as err:
-                sys.stderr.write('Error: Incorrect Format: %s\n' % str(err))
+                sys.stderr.write('AsnReader Error: Incorrect Format: %s\n' % str(err))
                 return
             log_list.add_to_data_structure(holder_to_update, log_list.IP_to_asn)
     # Helper function which deals with the complicated logic of parsing asn lines

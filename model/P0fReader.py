@@ -18,7 +18,7 @@ class P0fReader(State.ReaderState):
         try:
             fd = open(filename, "r")
         except IOError as err:
-            sys.stderr.write('Error: %s\n' % str(err))
+            sys.stderr.write('P0fReader Error: %s\n' % str(err))
             return
         while True:
             line1 = fd.readline()
@@ -53,7 +53,7 @@ class P0fReader(State.ReaderState):
             holder.params = re.search("params=([^|]+)", line1, re.DOTALL).group(1)
             holder.raw_sig = re.search("raw_sig=([^|]+)", line1, re.DOTALL).group(1).rstrip()
         except AttributeError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('P0fReader ERROR: %sn' % str(err))
 
     def __parse_p0f_line2(self, line2, holder):
         try:
@@ -63,4 +63,4 @@ class P0fReader(State.ReaderState):
             else:
                 holder.reason = re.search("reason=([^|]+)", line2, re.DOTALL).group(1)
         except AttributeError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('P0fReader ERROR: %sn' % str(err))
