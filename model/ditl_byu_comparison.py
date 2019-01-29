@@ -9,8 +9,6 @@ if len(sys.argv) != 4:
     print("DITL IP File Path all.gz\n BYU Traffic Client IP Path .asn\n Directory to store results")
     sys.exit()
 
-# python ditl_byu_comparison.py ~/Documents/RA-IMAAL/imaal-data/ditl-2018/resolver-count-all.txt.gz ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results2 ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results/
-
 
 ditl_file = gzip.open(sys.argv[1], "r")
 byu_file = open(sys.argv[2], "r")
@@ -42,19 +40,6 @@ for line in byu_file:
         byu_set.add(ip)
         test2.write(str(ip))
 
-# Because I need to do something different for lists
-# def interSection(arr1,arr2): 
-  
-#      # filter(lambda x: x in arr1, arr2)  --> 
-#      # filter element x from list arr2 where x 
-#      # also lies in arr1 
-#      result = list(filter(lambda x: x in arr1, arr2))  
-#      print ("Intersection : ",result) 
-# intersection_list = ditl_list.intersection(byu_list)
-# ditl_unique = ditl_list - byu_list
-# byu_unique = byu_list - ditl_list
-
-
 # The ways of the sets
 intersection_set = ditl_set.intersection(byu_set)
 ditl_unique_set = ditl_set.difference(byu_set)
@@ -68,6 +53,7 @@ mighty_log.ditl_unique = ditl_unique_set
 mighty_log.byu_unique = byu_unique_set
 mighty_log.save_data(sys.argv[3])
 
+# Test Purposes
 test3 = open(str(sys.argv[3]) + "intersection", "w")
 test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
 test5 = open(str(sys.argv[3]) + "byu_unique", "w")
