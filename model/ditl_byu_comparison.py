@@ -1,11 +1,12 @@
 import gzip
 import sys
+import LogList
 
 # Argument 1: Path to the DITL file to read
-# Argument 2: Path to Byu authoritative client ips
-# Argument 3: Directory to write results
+# Argument 2: Path to Byu authoritative client ips file
+# Argument 3: Directory to store results
 if len(sys.argv) != 4:
-    print("DITL IP\n BYU Traffic Client IP\n Directory to store results")
+    print("DITL IP File Path .gz\n BYU Traffic Client IP Path .asn\n Directory to store results")
     sys.exit()
 
 # python ditl_byu_comparison.py ~/Documents/RA-IMAAL/imaal-data/ditl-2018/resolver-count-all.txt.gz ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results2 ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results/
@@ -35,7 +36,6 @@ for line in ditl_file:
 
 for line in byu_file:
     if line != "begin\n" and line != "end\n": # if reading from the ip's created from parser.py we don't want the begin and end needed for asn
-        # ip = line.decode("utf-8")
         print(line)
         ip = line.rstrip('\n')         # Get rid of the newline that comes with reading the file
         # byu_list.append(ip)
@@ -60,6 +60,14 @@ intersection_set = ditl_set.intersection(byu_set)
 ditl_unique_set = ditl_set.difference(byu_set)
 byu_unique_set = byu_set.difference(ditl_set)
 
+# Create Log object. Load all data. Add new data. Save data
+mighty_log = LogList.LogList()
+mighty_log.load_all(argv[3])
+mighty_log.ditl_byu_intersection = intersection_set
+mighty_log.ditl_unique = ditl_unique_set
+mighty_log.byu_unique = byu_unique_set
+mighty_log.save_data(argv[3])
+
 test3 = open(str(sys.argv[3]) + "intersection", "w")
 test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
 test5 = open(str(sys.argv[3]) + "byu_unique", "w")
@@ -69,6 +77,7 @@ print("DITL UNIQUE length: " + str(len(ditl_unique_set)))
 print("BYU UNIQUE length: " + str(len(byu_unique_set)))
 
 for a in intersection_set:
+
     test3.write(a)
     test3.write("\n")
 
