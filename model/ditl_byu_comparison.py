@@ -6,7 +6,7 @@ import LogList
 # Argument 2: Path to Byu authoritative client ips file
 # Argument 3: Directory to store results
 if len(sys.argv) != 4:
-    print("DITL IP File Path .gz\n BYU Traffic Client IP Path .asn\n Directory to store results")
+    print("DITL IP File Path all.gz\n BYU Traffic Client IP Path .asn\n Directory to store results")
     sys.exit()
 
 # python ditl_byu_comparison.py ~/Documents/RA-IMAAL/imaal-data/ditl-2018/resolver-count-all.txt.gz ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results2 ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results/
@@ -62,11 +62,11 @@ byu_unique_set = byu_set.difference(ditl_set)
 
 # Create Log object. Load all data. Add new data. Save data
 mighty_log = LogList.LogList()
-mighty_log.load_all(argv[3])
+mighty_log.load_all(sys.argv[3])
 mighty_log.ditl_byu_intersection = intersection_set
 mighty_log.ditl_unique = ditl_unique_set
 mighty_log.byu_unique = byu_unique_set
-mighty_log.save_data(argv[3])
+mighty_log.save_data(sys.argv[3])
 
 test3 = open(str(sys.argv[3]) + "intersection", "w")
 test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
