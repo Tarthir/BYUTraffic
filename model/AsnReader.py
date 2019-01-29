@@ -32,7 +32,7 @@ class AsnReader(State.ReaderState):
                 self.__parse_asn(line_arr, holder_to_update)
             except IndexError as err:
                 sys.stderr.write('AsnReader Error: Incorrect Format: %s\n' % str(err))
-                return
+                continue
             log_list.add_to_data_structure(holder_to_update, log_list.IP_to_asn)
     # Helper function which deals with the complicated logic of parsing asn lines
     # In this function what comes in is longname_country_arr of length 1
