@@ -1,3 +1,4 @@
+import operator
 import sys
 
 class DistributionDoer:
@@ -8,7 +9,7 @@ class DistributionDoer:
     # ip_to_data is the data structure we are looking through
     def get_x_and_y_values(self, var, ip_to_data):
         if var == 'client':
-            return self.__get_client(ip_to_data)
+            return self.__get_client(self, ip_to_data)
         result = {}
         # get the list of objects, query_obj, associated with a given key
         for key, query_obj in ip_to_data.items():
@@ -24,7 +25,8 @@ class DistributionDoer:
                     result[attr_val] += 1
                 else:
                     result[attr_val] = 1
-        return list(result.keys()), list(result.values())  # Returning the x/y values from the dictionary we made
+        # sort for the graphs
+        return self.make_lists(result, result.get)
 
     # Do we need to look into our objects for the var asked for?
     # if the var asked for is in the asn or p0f data use this function to get it out
@@ -36,16 +38,20 @@ class DistributionDoer:
         except AttributeError as err:
             #sys.stderr.write('ERROR: %s\n' % str(err))
             return None
+
     # Returns two lists, x and y values. With x values being he IP address and y being the number
     # of times that IP value showed up in one of our data sets
     @staticmethod
-    def __get_client(ip_to_data):
+    def __get_client(self, ip_to_data):
         data = ip_to_data.copy()
-        sum = len(list(data.values()))
+        sm = len(list(data.values()))
         for k in data:
-            data[k] = len(data[k])/sum
+            data[k] = len(data[k])/sm
+        return self.make_lists(data, data.get)
+
+    def make_lists(self, data, key):
         # sort into tuples
-        s = [(k, data[k]) for k in sorted(data, key=data.get, reverse=True)]
+        s = [(k, data[k]) for k in sorted(data, key=key, reverse=True)]
         a, b = zip(*s)
         # convert into lists
         return list(a), list(b)

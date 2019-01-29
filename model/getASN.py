@@ -26,7 +26,6 @@ with open(asnData, 'w') as tmp:
 
 for file in os.listdir(logFilesLoc):
     # print(file)
-    # TODO may want to get rid of this requirement, may want to read files other then ones that are .p0f
     if file.endswith(".p0f"):
         # lets go through all the p0f files and get the IP addresses we find
         with open(file, 'r') as f:

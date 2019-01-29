@@ -27,7 +27,7 @@ netcat whois.cymru.com 43 < $WD/data/asnDataByu.asn | sort -n > $WD/data/asnFina
 # Get all the Root asn data
 netcat whois.cymru.com 43 < $WD/data/asnDataRoot.asn | sort -n > $WD/data/asnFinalDataRoot.asn
 # Add all data we got from asn and p0f to our data sets
-python $WD/model/DataAdder.py $WD/data/asnDataRoot.asn $WD/data/asnDataByu.asn $WD/data/p0f_files/
+python3 $WD/model/DataAdder.py $WD/data/asnFinalDataRoot.asn $WD/data/asnFinalDataByu.asn $WD/data/p0f_files/ $WD/data/
 
 # Venn diagram the ditl-2018 and byu authoritative traffic data
 python $WD/ditl_byu_comparison.py path_to_ditl_file path_to_byu_authoritative_ips(data/Byu/asnDataByu.asn) Output_path

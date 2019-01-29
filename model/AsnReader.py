@@ -1,7 +1,6 @@
-import states.ReaderState as State
-from model import PlotDataHolder as Holder
+import ReaderState as State
 import sys
-import model.AsnData as a
+import AsnData as Asn
 
 
 class AsnReader(State.ReaderState):
@@ -13,21 +12,28 @@ class AsnReader(State.ReaderState):
 
     # Goes through the asn data file(s) and
     def read(self, filename, log_list):
-        fd = open(filename, "r")
+        try:
+            fd = open(filename, "r")
+        except IOError as err:
+            sys.stderr.write('AsnReader Error: %s\n' % str(err))
+            return
         while True:
             line = None
             try:
                 line = fd.readline()
             except UnicodeDecodeError as err:
-                sys.stderr.write('KeyError in DataHolderList: %s\n' % str(err))
+                sys.stderr.write('AsnReader: KeyError in DataHolderList: %s\n' % str(err))
             if not line:
                 break  # EOF
             line_arr = line.split("|")
             # Strip away all unneeded whitespace
-            holder_to_update = a.AsnData()
-            self.__parse_asn(line_arr, holder_to_update)
+            holder_to_update = Asn.AsnData()
+            try:
+                self.__parse_asn(line_arr, holder_to_update)
+            except IndexError as err:
+                sys.stderr.write('AsnReader Error: Incorrect Format: %s\n' % str(err))
+                continue
             log_list.add_to_data_structure(holder_to_update, log_list.IP_to_asn)
-
     # Helper function which deals with the complicated logic of parsing asn lines
     # In this function what comes in is longname_country_arr of length 1
     # It may contain the country code, if it does we grab it

@@ -1,8 +1,8 @@
-import readers.ReaderState as State
+import ReaderState as State
 import re
-#from parse import query_log as log
 import sys
-import model.P0fData as p
+import P0fData as P0f
+
 
 class P0fReader(State.ReaderState):
 
@@ -15,7 +15,11 @@ class P0fReader(State.ReaderState):
 
     def read(self, filename, log_list):
         # Read two lines at a time from p0f as each IP has two lines of data
-        fd = open(filename, "r")
+        try:
+            fd = open(filename, "r")
+        except IOError as err:
+            sys.stderr.write('P0fReader Error: %s\n' % str(err))
+            return
         while True:
             line1 = fd.readline()
             line2 = fd.readline()
@@ -25,7 +29,7 @@ class P0fReader(State.ReaderState):
             if self.__check_host_change(line2):
                 line3 = fd.readline()
             # Make a data holder and parse the p0f data
-            holder = p.P0fData()
+            holder = P0f.P0fData()
             self.__parse_p0f(line1, line2, line3, holder)
             log_list.add_to_data_structure(holder, log_list.IP_to_p0f)
 
@@ -49,7 +53,7 @@ class P0fReader(State.ReaderState):
             holder.params = re.search("params=([^|]+)", line1, re.DOTALL).group(1)
             holder.raw_sig = re.search("raw_sig=([^|]+)", line1, re.DOTALL).group(1).rstrip()
         except AttributeError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('P0fReader ERROR: %s\n' % str(err))
 
     def __parse_p0f_line2(self, line2, holder):
         try:
@@ -59,4 +63,4 @@ class P0fReader(State.ReaderState):
             else:
                 holder.reason = re.search("reason=([^|]+)", line2, re.DOTALL).group(1)
         except AttributeError as err:
-            sys.stderr.write('ERROR: %sn' % str(err))
+            sys.stderr.write('P0fReader ERROR: %s\n' % str(err))
