@@ -5,22 +5,11 @@ import sys
 # Argument 2: Path to Byu authoritative client ips
 # Argument 3: Directory to write results
 if len(sys.argv) != 4:
-    print("Path to the DITL file required")
+    print("DITL IP\n BYU Traffic Client IP\n Directory to store results")
     sys.exit()
 
 # python ditl_byu_comparison.py ~/Documents/RA-IMAAL/imaal-data/ditl-2018/resolver-count-all.txt.gz ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results2 ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results/
 
-# Store all ditl ips
-# Compare with BYU ips
-
-# Save the similar ones
-# Save the ditl unique
-
-# Store all the byu ips
-# Compare with ditl
-
-# Save all the similar ones, double check with above
-# Save the byu unique
 
 ditl_file = gzip.open(sys.argv[1], "r")
 byu_file = open(sys.argv[2], "r")

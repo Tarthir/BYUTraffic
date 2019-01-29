@@ -15,6 +15,7 @@ rm -rf $WD/data/*
 mkdir $WD/data/unzipped_pcap/
 mkdir $WD/data/p0f_files/
 
+
 # Run our parsing, give it the location of the queries.log files
 python $WD/model/parser.py $loc2 $WD/data/ $WD/data/asnDataByu.asn
 # Run p0fer.py, give path to .pcap files, where the unzipped files go, and final log files go
