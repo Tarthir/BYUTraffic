@@ -1,26 +1,14 @@
 import gzip
 import sys
+import LogList
 
 # Argument 1: Path to the DITL file to read
-# Argument 2: Path to Byu authoritative client ips
-# Argument 3: Directory to write results
+# Argument 2: Path to Byu authoritative client ips file
+# Argument 3: Directory to store results
 if len(sys.argv) != 4:
-    print("Path to the DITL file required")
+    print("DITL IP File Path all.gz\n BYU Traffic Client IP Path .asn\n Directory to store results")
     sys.exit()
 
-# python ditl_byu_comparison.py ~/Documents/RA-IMAAL/imaal-data/ditl-2018/resolver-count-all.txt.gz ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results2 ~/Documents/RA-IMAAL/imaal-data/dns-queries/byu/testing-results/
-
-# Store all ditl ips
-# Compare with BYU ips
-
-# Save the similar ones
-# Save the ditl unique
-
-# Store all the byu ips
-# Compare with ditl
-
-# Save all the similar ones, double check with above
-# Save the byu unique
 
 ditl_file = gzip.open(sys.argv[1], "r")
 byu_file = open(sys.argv[2], "r")
@@ -46,31 +34,26 @@ for line in ditl_file:
 
 for line in byu_file:
     if line != "begin\n" and line != "end\n": # if reading from the ip's created from parser.py we don't want the begin and end needed for asn
-        # ip = line.decode("utf-8")
         print(line)
         ip = line.rstrip('\n')         # Get rid of the newline that comes with reading the file
         # byu_list.append(ip)
         byu_set.add(ip)
         test2.write(str(ip))
 
-# Because I need to do something different for lists
-# def interSection(arr1,arr2): 
-  
-#      # filter(lambda x: x in arr1, arr2)  --> 
-#      # filter element x from list arr2 where x 
-#      # also lies in arr1 
-#      result = list(filter(lambda x: x in arr1, arr2))  
-#      print ("Intersection : ",result) 
-# intersection_list = ditl_list.intersection(byu_list)
-# ditl_unique = ditl_list - byu_list
-# byu_unique = byu_list - ditl_list
-
-
 # The ways of the sets
 intersection_set = ditl_set.intersection(byu_set)
 ditl_unique_set = ditl_set.difference(byu_set)
 byu_unique_set = byu_set.difference(ditl_set)
 
+# Create Log object. Load all data. Add new data. Save data
+mighty_log = LogList.LogList()
+mighty_log.load_all(sys.argv[3])
+mighty_log.ditl_byu_intersection = intersection_set
+mighty_log.ditl_unique = ditl_unique_set
+mighty_log.byu_unique = byu_unique_set
+mighty_log.save_data(sys.argv[3])
+
+# Test Purposes
 test3 = open(str(sys.argv[3]) + "intersection", "w")
 test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
 test5 = open(str(sys.argv[3]) + "byu_unique", "w")
@@ -80,6 +63,7 @@ print("DITL UNIQUE length: " + str(len(ditl_unique_set)))
 print("BYU UNIQUE length: " + str(len(byu_unique_set)))
 
 for a in intersection_set:
+
     test3.write(a)
     test3.write("\n")
 

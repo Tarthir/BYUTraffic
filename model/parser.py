@@ -10,27 +10,28 @@ import QueryLog
 
 # Takes in the file path directory to read all the zip files
 # For Example from base /home/imaal/dns-queries/byu
-# Argument 1: Directory path to the zip giles
+# Argument 1: Directory path to the zip files to read from
 # Argument 2: The file directory to which we want to save the binary data which happens in loglist save function
-# Argument 3: File directory to save client ips, which will be fed to asn reader
+# Argument 3: File name to save client ips, which will be fed to asn reader
 if len(sys.argv) != 4:
-    print("Error, Give the path of the directory to zip file\n Give the path to where we will save the binary data\n Give the file path to save the client ips ")
+    print("Error, Give the path of the directory to zip file\n Give the path to where we will save the binary data. Path should end with /\n Give the file path to save the client ips. Path should end with /")
     sys.exit()
 
-
-directory_name = sys.argv[1] # Path of the directory holding the zip files
+directory_of_zip = sys.argv[1] # Path of the directory holding the zip files
+directory_to_save_binary = sys.argv[2]
+directory_to_save_asn_file = sys.argv[3]
 
 mighty_log = LogList.LogList() # Our LogList object for which we store our data into
 
-byu_to_asn_file = open(str(sys.argv[3]), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
+byu_to_asn_file = open(str(directory_to_save_binary) + str(directory_to_save_asn_file), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
 byu_to_asn_file.write("begin\n") # Because Tyler's asn file reader is so picky it needs this 'begin'
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
 
-output_file = open(str(sys.argv[3]) + "sample_output.txt", "w") # Creates a file with extra info about the files
+output_file = open(str(directory_to_save_binary) + "sample_output.txt", "w") # Creates a file with extra info about the files
 total_line_count = 0 # For sample output file
 
-for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the top and go down the directory
+for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from the top and go down the directory
     for name in files:
         if name.endswith('.gz'):
             output_file.write(str(name) + ' ') # For sample output file
@@ -56,7 +57,7 @@ for root, dirs, files in os.walk(sys.argv[1], topdown=True): # Start from the to
             total_line_count += line_count # for sample output file
 
 byu_to_asn_file.write("end\n") # Write out to ASN   
-mighty_log.save_data(sys.argv[2]) # Save the log object as binary using pickle in loglist.py
+mighty_log.save_data(directory_to_save_binary) # Save the log object as binary using pickle in loglist.py
 
 output_file.write("Total Lines Read:" + str(total_line_count) + "\n") # for sample output file
 

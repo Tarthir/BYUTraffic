@@ -12,6 +12,10 @@ class LogList:
         # The key is an ip address and the value is a list of query log objects
         self.IP_to_Log_byu = {}
         self.IP_to_asn = {}
+        # Ditl and BYU Traffic Sets
+        self.ditl_unique = set()
+        self.byu_unique = set()
+        self.ditl_byu_intersection = set()
         # this dict holds the data from the .pcap files that were to root from byu
         self.IP_to_p0f = {}
         # our saved data
@@ -84,4 +88,8 @@ class LogList:
 
 #####################################
 
+    # Add data to our set
+
+
+#####################################
 
