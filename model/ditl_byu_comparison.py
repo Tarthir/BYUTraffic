@@ -54,23 +54,23 @@ mighty_log.byu_unique = byu_unique_set
 mighty_log.save_data(sys.argv[3])
 
 # Test Purposes
-test3 = open(str(sys.argv[3]) + "intersection", "w")
-test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
-test5 = open(str(sys.argv[3]) + "byu_unique", "w")
+# test3 = open(str(sys.argv[3]) + "intersection", "w")
+# test4 = open(str(sys.argv[3]) + "ditl_unique", "w")
+# test5 = open(str(sys.argv[3]) + "byu_unique", "w")
 
-print("Intersection length: " + str(len(intersection_set)))
-print("DITL UNIQUE length: " + str(len(ditl_unique_set)))
-print("BYU UNIQUE length: " + str(len(byu_unique_set)))
+# print("Intersection length: " + str(len(intersection_set)))
+# print("DITL UNIQUE length: " + str(len(ditl_unique_set)))
+# print("BYU UNIQUE length: " + str(len(byu_unique_set)))
 
-for a in intersection_set:
+# for a in intersection_set:
 
-    test3.write(a)
-    test3.write("\n")
+#     test3.write(a)
+#     test3.write("\n")
 
-for b in ditl_unique_set:
-    test4.write(b)
-    test4.write("\n") 
+# for b in ditl_unique_set:
+#     test4.write(b)
+#     test4.write("\n") 
 
-for c in byu_unique_set:
-    test5.write(c)
-    test5.write("\n")
+# for c in byu_unique_set:
+#     test5.write(c)
+#     test5.write("\n")

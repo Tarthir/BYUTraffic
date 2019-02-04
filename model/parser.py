@@ -18,29 +18,33 @@ if len(sys.argv) != 4:
     sys.exit()
 
 directory_of_zip = sys.argv[1] # Path of the directory holding the zip files
-directory_to_save_binary = sys.argv[2]
-directory_to_save_asn_file = sys.argv[3]
+directory_for_output = sys.argv[2]
+asn_file_name = sys.argv[3]
 
 mighty_log = LogList.LogList() # Our LogList object for which we store our data into
 
-byu_to_asn_file = open(str(directory_to_save_binary) + str(directory_to_save_asn_file), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
+byu_to_asn_file = open(str(directory_for_output) + str(asn_file_name), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
+# byu_to_asn_file = open("ip.asn", "w")
 byu_to_asn_file.write("begin\n") # Because Tyler's asn file reader is so picky it needs this 'begin'
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
 
-output_file = open(str(directory_to_save_binary) + "sample_output.txt", "w") # Creates a file with extra info about the files
+output_file = open(str(directory_for_output) + "sample_output.txt", "w") # Creates a file with extra info about the files
+# output_file = open("sample_output.txt", "w")
 total_line_count = 0 # For sample output file
 
 for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from the top and go down the directory
     for name in files:
         if name.endswith('.gz'):
             output_file.write(str(name) + ' ') # For sample output file
-            print(str(name))
+            # print(str(name))
             line_count = 0 # For sample output file
-            with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
+            # with gzip.open(os.path.join(root,name), 'rt') as f: # rt - read and text, default is rb - read and bytes
+            with gzip.open(str(root) + "/" + str(name), 'rt') as f: # rt - read and text, default is rb - read and bytes    
                 for line in f:
                     line_count += 1 # For sample output file
                     # print(line_count)
+                    # print(line)
                     if re.match(regex, line):
                         regex_groups = re.match(regex, line) # Hold all the matched groups
 
@@ -50,6 +54,7 @@ for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from t
 
                         mighty_log.add_to_data_structure(log_object, mighty_log.IP_to_Log_byu) # Add to our data structure
                         byu_to_asn_file.write(log_object.client) # Write out to ASN
+                        byu_to_asn_file.write(regex_groups.group(8))
                         byu_to_asn_file.write("\n") # Write out to ASN
                     # else:
                         # sys.stderr.write(line) # Testing
@@ -57,7 +62,7 @@ for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from t
             total_line_count += line_count # for sample output file
 
 byu_to_asn_file.write("end\n") # Write out to ASN   
-mighty_log.save_data(directory_to_save_binary) # Save the log object as binary using pickle in loglist.py
+mighty_log.save_data(directory_for_output) # Save the log object as binary using pickle in loglist.py
 
 output_file.write("Total Lines Read:" + str(total_line_count) + "\n") # for sample output file
 
