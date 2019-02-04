@@ -20,17 +20,17 @@ if len(sys.argv) != 4:
 directory_of_zip = sys.argv[1] # Path of the directory holding the zip files
 directory_for_output = sys.argv[2]
 asn_file_name = sys.argv[3]
+ttl_query_names = open(str(sys.argv[2]) + "query_names_to_dig", "w")
 
 mighty_log = LogList.LogList() # Our LogList object for which we store our data into
 
 byu_to_asn_file = open(str(directory_for_output) + str(asn_file_name), "w") # The file for which we store the client ip for asn. (begin....ip.....end)
-# byu_to_asn_file = open("ip.asn", "w")
+
 byu_to_asn_file.write("begin\n") # Because Tyler's asn file reader is so picky it needs this 'begin'
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
 
 output_file = open(str(directory_for_output) + "sample_output.txt", "w") # Creates a file with extra info about the files
-# output_file = open("sample_output.txt", "w")
 total_line_count = 0 # For sample output file
 
 for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from the top and go down the directory
@@ -56,6 +56,8 @@ for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from t
                         byu_to_asn_file.write(log_object.client) # Write out to ASN
                         byu_to_asn_file.write(regex_groups.group(8))
                         byu_to_asn_file.write("\n") # Write out to ASN
+                        ttl_query_names.write(regex_groups.group(10))
+                        ttl_query_names.write("\n") # Write out the query names to dig for ttl
                     # else:
                         # sys.stderr.write(line) # Testing
             output_file.write(str(line_count) + '\n') # for sample output file
