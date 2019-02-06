@@ -1,2 +1,0 @@
-bro-node02.1539315600.pcap.gz 2650
-Total Lines Read:2650
