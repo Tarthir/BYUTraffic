@@ -81,7 +81,7 @@ class LogList:
         elif data_structure is None:
             sys.stderr.write('LogList ERROR: data_structure equals None\n')
             return
-        if data.client not in data_structure.keys():
+        if data.client not in data_structure:
             data_structure[data.client] = []
         data_structure[data.client].append(data)
 
