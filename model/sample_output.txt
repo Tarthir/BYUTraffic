@@ -1,0 +1,2 @@
+queries.log.400.gz 3128560
+Total Lines Read:3128560
