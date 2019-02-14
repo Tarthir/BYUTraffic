@@ -29,7 +29,7 @@ my_sql.write("use ByuTrafficDB;\n")
 # drop table before creating
 my_sql.write("DROP TABLE IF EXISTS parser;\n")
 
-my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), set_bool varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
+my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(10), time varchar(8), time_zone varchar(5), authoritative_name varchar(10), process_name varchar(10), process_id varchar(10), client_ip varchar(30), client_port varchar(10), query varchar(255), dns_class varchar(10), resource_record varchar(10), set_bool varchar(10), flag varchar(10), authoritative_ip varchar(30));\n")
 my_sql.write("insert into parser (date, time, time_zone, authoritative_name, process_name, process_id, client_ip, client_port, query, dns_class, resource_record, set_bool, flag, authoritative_ip) values")
 
 # my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255));\n") #, time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
