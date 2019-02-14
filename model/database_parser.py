@@ -26,8 +26,8 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-mycursor.execute("create database if not exists ByuTrafficDB")
-mycursor.execute("use ByuTrafficDB")
+mycursor.execute("create database if not exists ByuTrafficDBOrg")
+mycursor.execute("use ByuTrafficDBOrg")
 
 # drop table before creating
 sql = "DROP TABLE IF EXISTS parser"

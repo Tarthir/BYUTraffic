@@ -29,11 +29,11 @@ my_sql.write("use ByuTrafficDB;\n")
 # drop table before creating
 my_sql.write("DROP TABLE IF EXISTS parser;\n")
 
-# my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), set_bool varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
-# my_sql.write("insert into parser (date, time, time_zone, authoritative_name, process_name, process_id, client_ip, client_port, query, dns_class, resource_record, set_bool, flag, authoritative_ip) values")
+my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), set_bool varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
+my_sql.write("insert into parser (date, time, time_zone, authoritative_name, process_name, process_id, client_ip, client_port, query, dns_class, resource_record, set_bool, flag, authoritative_ip) values")
 
-my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255));\n") #, time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
-my_sql.write("insert into parser (date, time) values")
+# my_sql.write("create table if not exists parser (id int auto_increment primary key, date varchar(255), time varchar(255));\n") #, time varchar(255), time_zone varchar(255), authoritative_name varchar(255), process_name varchar(255), process_id varchar(255), client_ip varchar(255), client_port varchar(255), query varchar(255), dns_class varchar(255), resource_record varchar(255), flag varchar(255), authoritative_ip varchar(255));\n")
+# my_sql.write("insert into parser (date, time) values")
 
 
 regex = re.compile(r'(?i)^([0-9-]+)T([0-9:]+)-([0-9:]+) ([a-z0-9]+) ([a-z0-9]+)\[([0-9]+)\]: client ([0-9a-f.:]+)#([0-9]+) \((.*?)\): query: (.*?) ([a-z]+) ([a-z0-9]+) ([-+])([a-z]+)* \((.*?)\)')
@@ -60,19 +60,26 @@ for root, dirs, files in os.walk(directory_of_zip, topdown=True): # Start from t
                         #             + ", " + str(regex_groups.group(8)) + ", " + str(regex_groups.group(10)) + ", " + str(regex_groups.group(11)) + ", " + str(regex_groups.group(12)) \
                         #                 + ", " + str(regex_groups.group(13)) + ", " + str(regex_groups.group(14)) + ", " + str(regex_groups.group(15)) + ");\n")
                         
-                        # my_sql.write(",\n(" + str(regex_groups.group(1)) + ", " + str(regex_groups.group(2)) + ", " + str(regex_groups.group(3)) \
-                        #         + ", " + str(regex_groups.group(4)) + ", " + str(regex_groups.group(5)) + ", " + str(regex_groups.group(6)) + ", " + str(regex_groups.group(7)) \
-                        #             + ", " + str(regex_groups.group(8)) + ", " + str(regex_groups.group(10)) + ", " + str(regex_groups.group(11)) + ", " + str(regex_groups.group(12)) \
-                        #                 + ", " + str(regex_groups.group(13)) + ", " + str(regex_groups.group(14)) + ", " + str(regex_groups.group(15)) + ")")
-                        
+                        if line_count == 1:
+                            my_sql.write("\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(2)) + "\", \"" + str(regex_groups.group(3)) \
+                                + "\", \"" + str(regex_groups.group(4)) + "\", \"" + str(regex_groups.group(5)) + "\", \"" + str(regex_groups.group(6)) + "\", \"" + str(regex_groups.group(7)) \
+                                    + "\", \"" + str(regex_groups.group(8)) + "\", \"" + str(regex_groups.group(10)) + "\", \"" + str(regex_groups.group(11)) + "\", \"" + str(regex_groups.group(12)) \
+                                        + "\", \"" + str(regex_groups.group(13)) + "\", \"" + str(regex_groups.group(14)) + "\", \"" + str(regex_groups.group(15)) + "\")")
+                        else:
+                            my_sql.write(",\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(2)) + "\", \"" + str(regex_groups.group(3)) \
+                                + "\", \"" + str(regex_groups.group(4)) + "\", \"" + str(regex_groups.group(5)) + "\", \"" + str(regex_groups.group(6)) + "\", \"" + str(regex_groups.group(7)) \
+                                    + "\", \"" + str(regex_groups.group(8)) + "\", \"" + str(regex_groups.group(10)) + "\", \"" + str(regex_groups.group(11)) + "\", \"" + str(regex_groups.group(12)) \
+                                        + "\", \"" + str(regex_groups.group(13)) + "\", \"" + str(regex_groups.group(14)) + "\", \"" + str(regex_groups.group(15)) + "\")")
+                          
+                      
                         # my_sql.write("insert into parser (date) values (\"" + str(regex_groups.group(1)) + "\");\n")
 
                         # my_sql.write(",\n(\"" + str(regex_groups.group(1)) + "\")")
 
-                        if line_count == 1:
-                            my_sql.write("\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(4)) + "\")")
-                        else:
-                            my_sql.write(",\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(4)) + "\")")
+                        # if line_count == 1:
+                        #     my_sql.write("\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(4)) + "\")")
+                        # else:
+                            # my_sql.write(",\n(\"" + str(regex_groups.group(1)) + "\", \"" + str(regex_groups.group(4)) + "\")")
 
             output_file.write(str(line_count) + '\n') # for sample output file
             total_line_count += line_count # for sample output file
